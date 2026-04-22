@@ -1,0 +1,461 @@
+:root {
+  --primary: #4834d4;
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --text: #2f3640;
+  --accent: #4834d4;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-theme {
+  --bg: #0f111a;
+  --card: #1c1f2b;
+  --text: #f5f6fa;
+  --shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  transition: 0.2s ease;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.coin-display {
+  background: var(--card);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 800;
+  color: #f1c40f;
+  box-shadow: var(--shadow);
+}
+
+.nav-btn {
+  background: var(--card);
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 12px;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+
+
+/* Qatorlar tartibi */
+.kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  touch-action: manipulation;
+}
+
+/* Ikkinchi va uchinchi qatorni biroz surish (Professional ko'rinish uchun) */
+.kb-row:nth-child(2) {
+  padding: 0 5%;
+}
+
+.kb-row:nth-child(3) {
+  padding: 0 12%;
+}
+
+/* Tugmalar stili */
+.key {
+  flex: 1;
+  height: 50px;
+  min-width: 50px;
+  max-width: 45px;
+  background: var(--card);
+  color: var(--text);
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+  transition: all 0.1s active;
+  text-transform: uppercase;
+}
+
+/* Bosilganda effekt */
+.key:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* To'g'ri/Noto'g'ri topilgandagi holat */
+.key:disabled {
+  opacity: 0.4;
+  transform: translateY(2px);
+  box-shadow: none;
+  background: #dfe6e9;
+}
+
+/* Dark mode uchun maxsus rang */
+body.dark-theme .key {
+  background: #2d3436;
+  box-shadow: 0 4px 0 #000000;
+}
+
+body.dark-theme .key:disabled {
+  background: #1e272e;
+  color: #576574;
+}
+
+/* Modals & UI */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--card);
+  width: 90%;
+  max-width: 380px;
+  padding: 30px;
+  border-radius: 30px;
+  position: relative;
+  text-align: center;
+}
+
+.hide {
+  display: none !important;
+}
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked+.slider {
+  background-color: var(--accent);
+}
+
+input:checked+.slider:before {
+  transform: translateX(26px);
+}
+
+/* Language Select */
+select {
+  background: var(--bg);
+  color: var(--text);
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Visuals */
+.visual-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 10px;
+  margin-bottom: 15px;
+  box-shadow: var(--shadow);
+}
+
+.word-slots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.dash {
+  font-size: 1.5rem;
+  font-weight: 800;
+  border-bottom: 3px solid var(--accent);
+  color: var(--accent);
+  min-width: 20px;
+  text-align: center;
+}
+
+.hint-btn {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  margin: 15px 0;
+}
+
+.item-card {
+  background: var(--bg);
+  padding: 10px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.active-item {
+  border-color: var(--accent);
+}
+
+.danger-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ff7675;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.close-x {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  border: none;
+  background: #ff767522;
+  color: #ff7675;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Kategoriya tugmalari uchun zamonaviy style */
+.category-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  max-width: 350px;
+}
+
+.category-btn {
+  background: var(--card);
+  color: var(--text);
+  border: 2px solid transparent;
+  padding: 20px 25px;
+  border-radius: 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.category-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  background: var(--accent);
+  color: white;
+}
+
+.category-btn i {
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+.category-btn:hover i {
+  opacity: 1;
+  transform: translateX(5px);
+}
+
+/* QWERTY Klaviatura dizayni */
+.virtual-keyboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 20px;
+}
+
+.kb-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.key {
+  flex: 1;
+  height: 55px;
+  max-width: 45px;
+  background: var(--card);
+  color: var(--text);
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.1s;
+}
+
+.key:active {
+  transform: translateY(4px);
+  box-shadow: none;
+}
+
+.key:disabled {
+  opacity: 0.2;
+  transform: translateY(2px);
+  box-shadow: none;
+  filter: grayscale(1);
+}
+
+/* Dark mode uchun klaviatura rangi */
+body.dark-theme .key {
+  background: #2d3436;
+  box-shadow: 0 4px 0 #000;
+}
+
+.exit-btn-circle {
+  border: none;
+  background: #ff767522;
+  color: #ff7675;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.shop-tabs {
+  display: flex;
+  position: relative;
+  margin-bottom: 20px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+
+.tab-item {
+  flex: 1;
+  padding: 12px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+.tab-item.active {
+  opacity: 1;
+  color: var(--accent);
+}
+
+/* Border bottom animatsiyasi */
+.tab-indicator {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  width: 50%;
+  background: var(--accent);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ikkinchi tab tanlanganda chiziqni surish */
+.tab-item:nth-child(2).active~.tab-indicator {
+  transform: translateX(100%);
+}
+
+body.dark-theme .shop-tabs {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}

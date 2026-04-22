@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Hangmanoid Pro</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  </head>
+  <body class="light-theme">
+    <div id="hit-effect"></div>
+
+    <nav class="top-nav">
+      <div class="coin-display">
+        <i class="fas fa-coins"></i> <span id="coins">250</span>
+      </div>
+      <div class="nav-controls">
+        <button class="nav-btn" onclick="toggleModal('shop-modal')">
+          <i class="fas fa-shopping-bag"></i>
+        </button>
+        <button class="nav-btn" onclick="toggleModal('settings-modal')">
+          <i class="fas fa-cog"></i>
+        </button>
+      </div>
+    </nav>
+
+    <main class="app-container">
+      <section id="menu-section">
+        <h1 class="main-title">HANGMAN<span>OID</span></h1>
+        <p class="label-text" data-i18n="selectCategory">SELECT MISSION</p>
+        <div id="category-list" class="category-grid"></div>
+      </section>
+
+      <section id="game-section" class="hide">
+        <div class="game-header">
+          <span id="current-category"></span>
+          <button class="exit-btn-circle" onclick="location.reload()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="visual-card">
+          <canvas id="canvas" width="200" height="180"></canvas>
+        </div>
+
+        <div id="word-display" class="word-slots"></div>
+        <div id="keyboard" class="virtual-keyboard"></div>
+
+        <div class="game-footer">
+          <button onclick="useHint()" class="hint-btn">
+            <span class="hint-top"
+              ><i class="fas fa-lightbulb"></i>
+              <span data-i18n="hint">HINT</span></span
+            >
+            <span class="hint-bottom">20 <i class="fas fa-coins"></i></span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <div id="shop-modal" class="modal hide">
+      <div class="modal-content">
+        <button class="close-x" onclick="toggleModal('shop-modal')">&times;</button>
+        <h2 class="modal-title" data-i18n="shopTitle">MARKET</h2>
+    
+        <div class="shop-tabs">
+          <div class="tab-item active" onclick="switchTab('colors-tab', this)">SKINS</div>
+          <div class="tab-item" onclick="switchTab('boosters-tab', this)">ITEMS</div>
+          <div class="tab-indicator"></div>
+        </div>
+    
+        <div id="colors-tab" class="shop-grid"></div>
+    
+        <div id="boosters-tab" class="shop-grid hide">
+          <div class="item-card">
+            <div style="font-size:1.5rem; margin-bottom:5px;">🛡️</div>
+            <div style="font-size:0.7rem; font-weight:700">Shield</div>
+            <div style="font-size:0.6rem">100💰</div>
+          </div>
+          <div class="item-card">
+            <div style="font-size:1.5rem; margin-bottom:5px;">🧪</div>
+            <div style="font-size:0.7rem; font-weight:700">Potion</div>
+            <div style="font-size:0.6rem">50💰</div>
+          </div>
+        </div>
+    
+        <button class="modal-back-btn" onclick="toggleModal('shop-modal')" data-i18n="close">CLOSE</button>
+      </div>
+    </div>
+
+    <div id="settings-modal" class="modal hide">
+      <div class="modal-content">
+        <button class="close-x" onclick="toggleModal('settings-modal')">
+          &times;
+        </button>
+        <h2 class="modal-title" data-i18n="settings">SETTINGS</h2>
+
+        <div class="setting-row">
+          <span data-i18n="darkMode">DARK MODE</span>
+          <label class="switch">
+            <input type="checkbox" id="theme-toggle" onchange="toggleTheme()" />
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-row">
+          <span data-i18n="language">LANGUAGE</span>
+          <select id="lang-select" onchange="changeLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+            <option value="uz">O'zbekcha</option>
+          </select>
+        </div>
+
+        <button class="danger-btn" onclick="resetGame()" data-i18n="reset">
+          RESET PROGRESS
+        </button>
+      </div>
+    </div>
+
+    <div id="result-modal" class="modal hide">
+      <div class="modal-content result-card" id="result-data"></div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
