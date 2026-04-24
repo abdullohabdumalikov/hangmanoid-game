@@ -15,13 +15,24 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   </head>
   <body class="light-theme">
-    <div id="hit-effect"></div>
+    <div id="toast-container"></div>
 
     <nav class="top-nav">
-      <div class="coin-display">
-        <i class="fas fa-coins"></i> <span id="coins">250</span>
+      <div class="player-stats-nav">
+        <div class="coin-display">
+          <i class="fas fa-coins"></i> <span id="ui-coins">0</span>
+        </div>
+        <div class="level-display">
+          <span class="lvl-badge">LVL <span id="ui-level">1</span></span>
+          <div class="xp-bar-container">
+            <div id="ui-xp-bar" class="xp-bar-fill"></div>
+          </div>
+        </div>
       </div>
       <div class="nav-controls">
+        <button class="nav-btn" onclick="toggleModal('stats-modal')">
+          <i class="fas fa-chart-bar"></i>
+        </button>
         <button class="nav-btn" onclick="toggleModal('shop-modal')">
           <i class="fas fa-shopping-bag"></i>
         </button>
@@ -34,32 +45,94 @@
     <main class="app-container">
       <section id="menu-section">
         <h1 class="main-title">HANGMAN<span>OID</span></h1>
-        <p class="label-text" data-i18n="selectCategory">SELECT MISSION</p>
+
+        <div class="game-options">
+          <div class="option-group">
+            <label><i class="fas fa-tachometer-alt"></i> Difficulty</label>
+            <select
+              id="ui-difficulty"
+              onchange="updateSetupState('difficulty', this.value)"
+            >
+              <option value="easy">Easy (≤6)</option>
+              <option value="medium">Medium (7-8)</option>
+              <option value="hard">Hard (≥9)</option>
+            </select>
+          </div>
+          <div class="option-group">
+            <label><i class="fas fa-stopwatch"></i> Timer Mode (30s)</label>
+            <label class="switch">
+              <input
+                type="checkbox"
+                id="ui-timer-toggle"
+                onchange="updateSetupState('timer', this.checked)"
+              />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <button class="daily-btn" onclick="startDailyChallenge()">
+          <i class="fas fa-calendar-day"></i> DAILY CHALLENGE
+        </button>
+
+        <p class="label-text">SELECT MISSION</p>
         <div id="category-list" class="category-grid"></div>
       </section>
 
       <section id="game-section" class="hide">
         <div class="game-header">
-          <span id="current-category"></span>
-          <button class="exit-btn-circle" onclick="location.reload()">
-            <i class="fas fa-times"></i>
-          </button>
+          <div class="header-left">
+            <span id="current-category" class="category-badge"></span>
+            <span id="ui-combo" class="combo-badge hide"
+              ><i class="fas fa-fire"></i> x<span>0</span></span
+            >
+            <span id="ui-timer" class="timer-badge hide"
+              ><i class="fas fa-clock"></i> <span>30</span>s</span
+            >
+          </div>
+          <div class="header-right">
+            <div class="active-items">
+              <button
+                onclick="useItem('shield')"
+                class="item-use-btn"
+                id="use-shield-btn"
+              >
+                🛡️ <span id="hud-shield">0</span>
+              </button>
+              <button
+                onclick="useItem('potion')"
+                class="item-use-btn"
+                id="use-potion-btn"
+              >
+                🧪 <span id="hud-potion">0</span>
+              </button>
+            </div>
+            <button class="exit-btn-circle" onclick="abortGame()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
         </div>
 
         <div class="visual-card">
           <canvas id="canvas" width="200" height="180"></canvas>
+          <div id="clue-display" class="hide"></div>
         </div>
 
         <div id="word-display" class="word-slots"></div>
         <div id="keyboard" class="virtual-keyboard"></div>
 
-        <div class="game-footer">
-          <button onclick="useHint()" class="hint-btn">
-            <span class="hint-top"
-              ><i class="fas fa-lightbulb"></i>
-              <span data-i18n="hint">HINT</span></span
-            >
+        <div class="game-footer hints-grid">
+          <button onclick="buyHint('reveal')" class="hint-btn">
+            <span class="hint-top"><i class="fas fa-search"></i> Reveal</span>
             <span class="hint-bottom">20 <i class="fas fa-coins"></i></span>
+          </button>
+          <button onclick="buyHint('remove')" class="hint-btn">
+            <span class="hint-top"><i class="fas fa-eraser"></i> 50/50</span>
+            <span class="hint-bottom">15 <i class="fas fa-coins"></i></span>
+          </button>
+          <button onclick="buyHint('clue')" class="hint-btn">
+            <span class="hint-top"><i class="fas fa-lightbulb"></i> Clue</span>
+            <span class="hint-bottom">10 <i class="fas fa-coins"></i></span>
           </button>
         </div>
       </section>
@@ -67,31 +140,38 @@
 
     <div id="shop-modal" class="modal hide">
       <div class="modal-content">
-        <button class="close-x" onclick="toggleModal('shop-modal')">&times;</button>
-        <h2 class="modal-title" data-i18n="shopTitle">MARKET</h2>
-    
+        <button class="close-x" onclick="toggleModal('shop-modal')">
+          &times;
+        </button>
+        <h2 class="modal-title">MARKET</h2>
         <div class="shop-tabs">
-          <div class="tab-item active" onclick="switchTab('colors-tab', this)">SKINS</div>
-          <div class="tab-item" onclick="switchTab('boosters-tab', this)">ITEMS</div>
+          <div class="tab-item active" onclick="switchTab('colors-tab', this)">
+            SKINS
+          </div>
+          <div class="tab-item" onclick="switchTab('boosters-tab', this)">
+            ITEMS
+          </div>
           <div class="tab-indicator"></div>
         </div>
-    
         <div id="colors-tab" class="shop-grid"></div>
-    
         <div id="boosters-tab" class="shop-grid hide">
-          <div class="item-card">
-            <div style="font-size:1.5rem; margin-bottom:5px;">🛡️</div>
-            <div style="font-size:0.7rem; font-weight:700">Shield</div>
-            <div style="font-size:0.6rem">100💰</div>
+          <div class="item-card" onclick="buyInventoryItem('shield', 100)">
+            <div style="font-size: 1.5rem; margin-bottom: 5px">🛡️</div>
+            <div style="font-size: 0.7rem; font-weight: 700">Shield</div>
+            <div style="font-size: 0.6rem">
+              100 <i class="fas fa-coins coen"></i>
+            </div>
+            <div style="font-size: 0.5rem; color: #888">Prevents 1 Mistake</div>
           </div>
-          <div class="item-card">
-            <div style="font-size:1.5rem; margin-bottom:5px;">🧪</div>
-            <div style="font-size:0.7rem; font-weight:700">Potion</div>
-            <div style="font-size:0.6rem">50💰</div>
+          <div class="item-card" onclick="buyInventoryItem('potion', 50)">
+            <div style="font-size: 1.5rem; margin-bottom: 5px">🧪</div>
+            <div style="font-size: 0.7rem; font-weight: 700">Potion</div>
+            <div style="font-size: 0.6rem">
+              50 <i class="fas fa-coins coen"></i>
+            </div>
+            <div style="font-size: 0.5rem; color: #888">Reveals 2 Letters</div>
           </div>
         </div>
-    
-        <button class="modal-back-btn" onclick="toggleModal('shop-modal')" data-i18n="close">CLOSE</button>
       </div>
     </div>
 
@@ -100,28 +180,34 @@
         <button class="close-x" onclick="toggleModal('settings-modal')">
           &times;
         </button>
-        <h2 class="modal-title" data-i18n="settings">SETTINGS</h2>
-
+        <h2 class="modal-title">SETTINGS</h2>
         <div class="setting-row">
-          <span data-i18n="darkMode">DARK MODE</span>
+          <span>DARK MODE</span>
           <label class="switch">
             <input type="checkbox" id="theme-toggle" onchange="toggleTheme()" />
             <span class="slider"></span>
           </label>
         </div>
-
         <div class="setting-row">
-          <span data-i18n="language">LANGUAGE</span>
-          <select id="lang-select" onchange="changeLanguage(this.value)">
-            <option value="en">English</option>
-            <option value="ru">Русский</option>
-            <option value="uz">O'zbekcha</option>
-          </select>
+          <span>SOUND FX</span>
+          <label class="switch">
+            <input type="checkbox" id="sound-toggle" onchange="toggleSound()" />
+            <span class="slider"></span>
+          </label>
         </div>
+        <button class="danger-btn" onclick="hardReset()">RESET PROGRESS</button>
+      </div>
+    </div>
 
-        <button class="danger-btn" onclick="resetGame()" data-i18n="reset">
-          RESET PROGRESS
+    <div id="stats-modal" class="modal hide">
+      <div class="modal-content">
+        <button class="close-x" onclick="toggleModal('stats-modal')">
+          &times;
         </button>
+        <h2 class="modal-title">PLAYER STATS</h2>
+        <div class="stats-grid" id="stats-container"></div>
+        <h3 style="margin-top: 20px; font-size: 1rem">Achievements</h3>
+        <div class="achievements-list" id="achievements-container"></div>
       </div>
     </div>
 
