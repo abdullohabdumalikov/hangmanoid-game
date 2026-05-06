@@ -39,11 +39,21 @@ let gameState = JSON.parse(JSON.stringify(defaultState));
 
 // --- DATA ---
 const localWords = {
-  Fruits: ["PINEAPPLE", "AVOCADO", "STRAWBERRY", "BANANA", "ORANGE", "GRAPE", "TOMATO", "WATERMELON", "MANGO", "MELON", "BLUEBERRY", "APPLE", "LEMON", "PEACH", "KIWI", "CHERRY", "PEAR", "PLUM", "RASPBERRY", "BLACKBERRY", "COCONUT", "FIG", "GUAVA", "LYCHEE", "NECTARINE", "PAPAYA", "POMEGRANATE", "QUINCE", "TANGERINE", "UGLI FRUIT", "YUZU", "ZUCCHINI", "APRICOT", "BERRY", "CANTALOUPE", "DATE", "ELDERBERRY", "HONEYDEW", "JACKFRUIT", "LIME", "PASSIONFRUIT", "QUANDONG", "STARFRUIT", "TAMARIND", "VOAVANGA", "XIGUA", "ZIZIPHUS", "ACEROLA", "BILBERRY", "CRANBERRY", "DAMSON", "ENDIVE", "FEIJOA", "GRAPEFRUIT", "HUCKLEBERRY", "IMBE", "JUNEBERRY", "KUMQUAT", "LONGAN", "MARIONBERRY", "OLIVE", "PERSIMMON", "RAMBUTAN", "SOURSOP", "TAYBERRY", "UGNI", "VINE PEARL", "WAMPEE"],
+  Fruits: [
+    "PINEAPPLE", "AVOCADO", "STRAWBERRY", "BANANA", "ORANGE", "GRAPE", "TOMATO", "WATERMELON", "MANGO", "MELON", "BLUEBERRY", "APPLE", "LEMON", "PEACH", "KIWI", "CHERRY", "PEAR", "PLUM", "RASPBERRY", "BLACKBERRY", "COCONUT", "FIG", "GUAVA", "LYCHEE", "NECTARINE", "PAPAYA", "POMEGRANATE", "QUINCE", "TANGERINE", "YUZU", "ZUCCHINI", "APRICOT", "BERRY", "CANTALOUPE", "DATE", "ELDERBERRY", "HONEYDEW", "JACKFRUIT", "LIME", "PASSIONFRUIT", "QUANDONG", "STARFRUIT", "TAMARIND", "VOAVANGA", "XIGUA", "ZIZIPHUS", "ACEROLA", "BILBERRY", "CRANBERRY", "DAMSON", "ENDIVE", "FEIJOA", "GRAPEFRUIT", "HUCKLEBERRY", "IMBE", "JUNEBERRY", "KUMQUAT", "LONGAN", "MARIONBERRY", "OLIVE", "PERSIMMON", "RAMBUTAN", "SOURSOP", "TAYBERRY",
+  ],
 
-  Animals: ["KANGAROO", "PENGUIN", "CROCODILE", "ELEPHANT", "CHEETAH", "BEAR", "BIRD", "DOG", "CAT", "MONKEY", "SNAKE", "HORSE", "WOLF", "FOX", "FROG", "LION", "TIGER", "ZEBRA", "GIRAFFE", "HIPPOPOTAMUS", "RHINOCEROS", "SQUIRREL", "OTTER", "DEER", "RABBIT", "SNAIL", "CRAB", "OCTOPUS", "DOLPHIN", "SHARK", "WHALE", "SEAL", "JELLYFISH", "STARFISH", "LOBSTER", "ANTELOPE", "BUFFALO", "CAMEL", "DONKEY", "FERRET", "GOAT", "HAMSTER", "IBEX", "JAGUAR", "KOALA", "LEMUR", "MOOSE", "NEWt", "ORANGUTAN", "PORCUPINE", "QUOKKA", "RACCOON", "SLOTH", "TAPIR", "URIAL", "VULTURE", "WOMBAt", "XERUS", "YAK", "ZORILLA", "ALPACA", "BISON", "CHAMELEON", "DINGO", "EMU", "FLAMINGO", "GOLDFISH", "HEDGEHOG", "IGUANA", "JELLYFISH", "KIWI", "LLAMA", "MANATEE", "NARWHAL", "OPOSSUM", "PANDA", "QUAIL", "RAVEN", "SALAMANDER", "TURTLE", "UMBRA", "VIPER", "WALLABY", "XENOPS", "YETI", "ZEBU"],
+  Animals: [
+    "KANGAROO", "PENGUIN", "CROCODILE", "ELEPHANT", "CHEETAH", "BEAR", "BIRD", "DOG", "CAT", "MONKEY", "SNAKE", "HORSE", "WOLF", "FOX", "FROG", "LION", "TIGER", "ZEBRA", "GIRAFFE", "HIPPOPOTAMUS", "RHINOCEROS", "SQUIRREL", "OTTER", "DEER", "RABBIT", "SNAIL", "CRAB", "OCTOPUS", "DOLPHIN", "SHARK", "WHALE", "SEAL", "JELLYFISH", "STARFISH", "LOBSTER", "ANTELOPE", "BUFFALO", "CAMEL", "DONKEY", "FERRET", "GOAT", "HAMSTER", "IBEX", "JAGUAR", "KOALA", "LEMUR", "MOOSE", "NEWt", "ORANGUTAN", "PORCUPINE", "QUOKKA", "RACCOON", "SLOTH", "TAPIR", "URIAL", "VULTURE", "WOMBAt", "XERUS", "YAK", "ZORILLA", "ALPACA", "BISON", "CHAMELEON", "DINGO", "EMU", "FLAMINGO", "GOLDFISH", "HEDGEHOG", "IGUANA", "KIWI", "LLAMA", "MANATEE", "NARWHAL", "OPOSSUM", "PANDA", "QUAIL", "RAVEN", "SALAMANDER", "TURTLE", "UMBRA", "VIPER", "WALLABY", "XENOPS", "YETI", "ZEBU"
+  ],
 
-  Countries: ["UZBEKISTAN", "BRAZIL", "CANADA", "JAPAN", "GERMANY", "RUSSIA", "SPAIN", "ITALY", "USA", "AUSTRALIA", "MEXICO", "CHINA", "TURKEY", "FRANCE", "INDIA", "EGYPT", "THAILAND", "GREECE", "PORTUGAL", "NETHERLANDS", "SWEDEN", "NORWAY", "DENMARK", "FINLAND", "POLAND", "ARGENTINA", "SOUTH AFRICA", "SAUDI ARABIA", "IRAN", "IRAQ", "ISRAEL", "UNITED KINGDOM", "SOUTH KOREA", "NORTH KOREA", "VIETNAM", "PHILIPPINES", "MALAYSIA", "SINGAPORE", "INDONESIA", "BANGLADESH", "PAKISTAN", "NEPAL", "SRILANKA", "MYANMAR", "CAMBODIA", "LAOS", "MONGOLIA", "QATAR", "KUWAIT", "OMAN", "YEMEN", "SYRIA", "LEBANON", "JORDAN", "LIBYA", "TUNISIA", "ALGERIA", "MOROCCO", "ANGOLA", "GHANA", "KENYA", "UGANDA", "TANZANIA", "ZAMBIA", "ZIMBABWE", "NAMIBIA", "BOTSWANA", "MADAGASCAR", "SENEGAL", "MALI", "NIGER", "CHAD", "CENTRAL AFRICAN REPUBLIC", "SOMALIA", "ERITREA", "DJIBOUTI", "GUINEA", "SIERRA LEONE", "LIBERIA", "GREENLAND", "ICELAND", "CYPRUS", "MALTA", "LUXEMBOURG", "ANDORRA", "MONACO",]
+  Countries: [
+    "UZBEKISTAN", "BRAZIL", "CANADA", "JAPAN", "GERMANY", "RUSSIA", "SPAIN", "ITALY", "USA", "AUSTRALIA", "MEXICO", "CHINA", "TURKEY", "FRANCE", "INDIA", "EGYPT", "THAILAND", "GREECE", "PORTUGAL", "NETHERLANDS", "SWEDEN", "NORWAY", "DENMARK", "FINLAND", "POLAND", "ARGENTINA", "IRAN", "IRAQ", "ISRAEL", "VIETNAM", "PHILIPPINES", "MALAYSIA", "SINGAPORE", "INDONESIA", "BANGLADESH", "PAKISTAN", "NEPAL", "SRILANKA", "MYANMAR", "CAMBODIA", "LAOS", "MONGOLIA", "QATAR", "KUWAIT", "OMAN", "YEMEN", "SYRIA", "LEBANON", "JORDAN", "LIBYA", "TUNISIA", "ALGERIA", "MOROCCO", "ANGOLA", "GHANA", "KENYA", "UGANDA", "TANZANIA", "ZAMBIA", "ZIMBABWE", "NAMIBIA", "BOTSWANA", "MADAGASCAR", "SENEGAL", "MALI", "NIGER", "CHAD", "SOMALIA", "ERITREA", "DJIBOUTI", "GUINEA", "LIBERIA", "GREENLAND", "ICELAND", "CYPRUS", "MALTA", "LUXEMBOURG", "ANDORRA", "MONACO"
+  ],
+
+  FootballPlayers: [
+    "MESSI", "RONALDO", "NEYMAR", "MBAPPE", "HAALAND", "SALAH", "KROOS", "KANTE", "LEWANDOWSKI", "SERGIO", "MODRIC", "SANE", "FODEN", "GREALISH", "RASHFORD", "SANCHO", "KANE", "BENZEMA", "LUKAKU", "STERLING", "SON", "MULLER", "ALISSON", "SUAREZ", "EDERSON", "COURTOIS", "OBLAK", "ONANA", "BAUER", "GULACSI", "NAVAAS", "TRAPP", "LENO", "MARCHESIN", "KARNEZIS", "PICKFORD", "GUENDOUZI", "FABIANSKI", "LOPEZ", "MENDY", "ROBINSON", "TIERNEY", "SANCHEZ", "COUTINHO", "WERNER", "HAVERTZ", "KOVACIC", "RODRIGUEZ", "BALE", "RONALDINHO", "ROBBEN", "ZIDANE", "CANNAVARO", "FIORENTINO", "GERRARD", "SCHWEINSTEIGER", "INIESTA", "PIRLO", "GRIEZMANN", "MARTIAL", "DEPAY", "VERRATTI", "KESSIE", "GOMEZ", "XAVI", "GULLIT", "KHUSANOV", "YASHIN", "BECKENBAUER", "ZICO", "BECKHAM", "CRUYFF", "TEVEZ", "PELE", "MARADONA", "KEANE", "GERARD", "KAKA", "GARRINCHA", "CHERKI"
+  ]
 };
 
 const shopData = [
@@ -55,7 +65,6 @@ const shopData = [
   { id: "#be2edd", name: "Purple", price: 800 },
   { id: "#2f3542", name: "Coal", price: 400 },
   { id: "#ff7f50", name: "Coral", price: 700 },
-  { id: "#dff9fb", name: "Ice", price: 300 },
   { id: "#e056fd", name: "Pink", price: 900 },
   { id: "#7ed6df", name: "Mint", price: 600 },
   { id: "#686de0", name: "Violet", price: 1000 },
@@ -89,7 +98,7 @@ const playSound = (type) => {
   const now = audioCtx.currentTime;
   if (type === 'click') { osc.frequency.setValueAtTime(400, now); osc.type = 'sine'; gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1); osc.start(now); osc.stop(now + 0.1); }
   else if (type === 'correct') { osc.frequency.setValueAtTime(600, now); osc.frequency.setValueAtTime(800, now + 0.1); osc.type = 'square'; gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); }
-  else if (type === 'wrong') { osc.frequency.setValueAtTime(300, now); osc.frequency.setValueAtTime(200, now + 0.1); osc.type = 'sawtooth'; gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); }
+  else if (type === 'wrong') { osc.frequency.setValueAtTime(300, now); osc.frequency.setValueAtTime(200, now + 0.1); osc.type = 'sawtooth'; gnain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); }
   else if (type === 'win') { osc.frequency.setValueAtTime(400, now); osc.frequency.setValueAtTime(500, now + 0.1); osc.frequency.setValueAtTime(600, now + 0.2); osc.type = 'sine'; gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
   else if (type === 'lose') { osc.frequency.setValueAtTime(300, now); osc.frequency.linearRampToValueAtTime(100, now + 0.4); osc.type = 'sawtooth'; gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
 };
