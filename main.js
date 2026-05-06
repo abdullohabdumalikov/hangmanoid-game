@@ -39,16 +39,35 @@ let gameState = JSON.parse(JSON.stringify(defaultState));
 
 // --- DATA ---
 const localWords = {
-  Fruits: ["PINEAPPLE", "AVOCADO", "STRAWBERRY", "BANANA", "ORANGE", "GRAPE", "TOMATO", "WATERMELON", "MANGO", "MELON", "BLUEBERRY", "APPLE", "LEMON", "PEACH", "KIWI", "CHERRY", ""],
-  Animals: ["KANGAROO", "PENGUIN", "CROCODILE", "ELEPHANT", "CHEETAH", "BEAR", "BIRD", "DOG", "CAT", "MONKEY", "SNAKE", "HORSE", "WOLF", "FOX", "FROG", "LION", "TIGER", "ZEBRA"],
-  Countries: ["UZBEKISTAN", "BRAZIL", "CANADA", "JAPAN", "GERMANY", "RUSSIA", "SPAIN", "ITALY", "USA", "AUSTRALIA", "MEXICO", "CHINA", "TURKEY", "FRANCE", "INDIA", "EGYPT"]
+  Fruits: ["PINEAPPLE", "AVOCADO", "STRAWBERRY", "BANANA", "ORANGE", "GRAPE", "TOMATO", "WATERMELON", "MANGO", "MELON", "BLUEBERRY", "APPLE", "LEMON", "PEACH", "KIWI", "CHERRY", "PEAR", "PLUM", "RASPBERRY", "BLACKBERRY", "COCONUT", "FIG", "GUAVA", "LYCHEE", "NECTARINE", "PAPAYA", "POMEGRANATE", "QUINCE", "TANGERINE", "UGLI FRUIT", "YUZU", "ZUCCHINI", "APRICOT", "BERRY", "CANTALOUPE", "DATE", "ELDERBERRY", "HONEYDEW", "JACKFRUIT", "LIME", "PASSIONFRUIT", "QUANDONG", "STARFRUIT", "TAMARIND", "VOAVANGA", "XIGUA", "ZIZIPHUS", "ACEROLA", "BILBERRY", "CRANBERRY", "DAMSON", "ENDIVE", "FEIJOA", "GRAPEFRUIT", "HUCKLEBERRY", "IMBE", "JUNEBERRY", "KUMQUAT", "LONGAN", "MARIONBERRY", "OLIVE", "PERSIMMON", "RAMBUTAN", "SOURSOP", "TAYBERRY", "UGNI", "VINE PEARL", "WAMPEE"],
+
+  Animals: ["KANGAROO", "PENGUIN", "CROCODILE", "ELEPHANT", "CHEETAH", "BEAR", "BIRD", "DOG", "CAT", "MONKEY", "SNAKE", "HORSE", "WOLF", "FOX", "FROG", "LION", "TIGER", "ZEBRA", "GIRAFFE", "HIPPOPOTAMUS", "RHINOCEROS", "SQUIRREL", "OTTER", "DEER", "RABBIT", "SNAIL", "CRAB", "OCTOPUS", "DOLPHIN", "SHARK", "WHALE", "SEAL", "JELLYFISH", "STARFISH", "LOBSTER", "ANTELOPE", "BUFFALO", "CAMEL", "DONKEY", "FERRET", "GOAT", "HAMSTER", "IBEX", "JAGUAR", "KOALA", "LEMUR", "MOOSE", "NEWt", "ORANGUTAN", "PORCUPINE", "QUOKKA", "RACCOON", "SLOTH", "TAPIR", "URIAL", "VULTURE", "WOMBAt", "XERUS", "YAK", "ZORILLA", "ALPACA", "BISON", "CHAMELEON", "DINGO", "EMU", "FLAMINGO", "GOLDFISH", "HEDGEHOG", "IGUANA", "JELLYFISH", "KIWI", "LLAMA", "MANATEE", "NARWHAL", "OPOSSUM", "PANDA", "QUAIL", "RAVEN", "SALAMANDER", "TURTLE", "UMBRA", "VIPER", "WALLABY", "XENOPS", "YETI", "ZEBU"],
+
+  Countries: ["UZBEKISTAN", "BRAZIL", "CANADA", "JAPAN", "GERMANY", "RUSSIA", "SPAIN", "ITALY", "USA", "AUSTRALIA", "MEXICO", "CHINA", "TURKEY", "FRANCE", "INDIA", "EGYPT", "THAILAND", "GREECE", "PORTUGAL", "NETHERLANDS", "SWEDEN", "NORWAY", "DENMARK", "FINLAND", "POLAND", "ARGENTINA", "SOUTH AFRICA", "SAUDI ARABIA", "IRAN", "IRAQ", "ISRAEL", "UNITED KINGDOM", "SOUTH KOREA", "NORTH KOREA", "VIETNAM", "PHILIPPINES", "MALAYSIA", "SINGAPORE", "INDONESIA", "BANGLADESH", "PAKISTAN", "NEPAL", "SRILANKA", "MYANMAR", "CAMBODIA", "LAOS", "MONGOLIA", "QATAR", "KUWAIT", "OMAN", "YEMEN", "SYRIA", "LEBANON", "JORDAN", "LIBYA", "TUNISIA", "ALGERIA", "MOROCCO", "ANGOLA", "GHANA", "KENYA", "UGANDA", "TANZANIA", "ZAMBIA", "ZIMBABWE", "NAMIBIA", "BOTSWANA", "MADAGASCAR", "SENEGAL", "MALI", "NIGER", "CHAD", "CENTRAL AFRICAN REPUBLIC", "SOMALIA", "ERITREA", "DJIBOUTI", "GUINEA", "SIERRA LEONE", "LIBERIA", "GREENLAND", "ICELAND", "CYPRUS", "MALTA", "LUXEMBOURG", "ANDORRA", "MONACO",]
 };
 
 const shopData = [
-  { id: "#4834d4", name: "Royal", price: 0 }, { id: "#eb4d4b", name: "Crimson", price: 500 },
-  { id: "#6ab04c", name: "Forest", price: 500 }, { id: "#f9ca24", name: "Gold", price: 2000 },
-  { id: "#22a6b3", name: "Cyan", price: 600 }, { id: "#be2edd", name: "Purple", price: 800 },
-  { id: "#2f3542", name: "Coal", price: 400 }, { id: "#ff7f50", name: "Coral", price: 700 }
+  { id: "#4834d4", name: "Royal", price: 0 },
+  { id: "#eb4d4b", name: "Crimson", price: 500 },
+  { id: "#6ab04c", name: "Forest", price: 500 },
+  { id: "#f9ca24", name: "Gold", price: 2000 },
+  { id: "#22a6b3", name: "Cyan", price: 600 },
+  { id: "#be2edd", name: "Purple", price: 800 },
+  { id: "#2f3542", name: "Coal", price: 400 },
+  { id: "#ff7f50", name: "Coral", price: 700 },
+  { id: "#dff9fb", name: "Ice", price: 300 },
+  { id: "#e056fd", name: "Pink", price: 900 },
+  { id: "#7ed6df", name: "Mint", price: 600 },
+  { id: "#686de0", name: "Violet", price: 1000 },
+  { id: "#192a56", name: "Midnight", price: 1200 },
+  { id: "#f0932b", name: "Orange", price: 500 },
+  { id: "#c44569", name: "Rose", price: 800 },
+  { id: "#7f8fa6", name: "Steel", price: 400 },
+  { id: "#44bd32", name: "Lime", price: 700 },
+  { id: "#273c75", name: "Sapphire", price: 900 },
+  { id: "#718093", name: "Slate", price: 300 },
+  { id: "#e84118", name: "Flame", price: 1100 },
+  { id: "#7b2ff7", name: "Amethyst", price: 1300 },
 ];
 
 const achievementsData = {
@@ -445,7 +464,7 @@ const handleGameOver = (win) => {
       <h2>GAME OVER</h2>
       <p>The word was:</p>
       <h3 style="color:var(--danger); letter-spacing:3px;">${gameState.word}</h3>
-      <button class="action-btn" style="background:var(--text);" onclick="returnToMenu()">MENU</button>
+      <button class="action-btn" style="color:var(--text);" onclick="returnToMenu()">MENU</button>
     `;
   }
   checkAchievements();
