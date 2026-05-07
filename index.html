@@ -7,6 +7,11 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Hangmanoid Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
     <link
       rel="stylesheet"
@@ -17,6 +22,7 @@
   <body class="light-theme">
     <div id="toast-container"></div>
 
+    <!-- TOP NAV -->
     <nav class="top-nav">
       <div class="player-stats-nav">
         <div class="coin-display">
@@ -30,21 +36,43 @@
         </div>
       </div>
       <div class="nav-controls">
-        <button class="nav-btn" onclick="toggleModal('stats-modal')">
+        <button
+          class="nav-btn"
+          onclick="toggleModal('profile-modal')"
+          title="Profile"
+        >
+          <i class="fas fa-user"></i>
+        </button>
+        <button
+          class="nav-btn"
+          onclick="toggleModal('stats-modal')"
+          title="Stats"
+        >
           <i class="fas fa-chart-bar"></i>
         </button>
-        <button class="nav-btn" onclick="toggleModal('shop-modal')">
+        <button
+          class="nav-btn"
+          onclick="toggleModal('shop-modal')"
+          title="Shop"
+        >
           <i class="fas fa-shopping-bag"></i>
         </button>
-        <button class="nav-btn" onclick="toggleModal('settings-modal')">
+        <button
+          class="nav-btn"
+          onclick="toggleModal('settings-modal')"
+          title="Settings"
+        >
           <i class="fas fa-cog"></i>
         </button>
       </div>
     </nav>
 
     <main class="app-container">
+      <!-- MENU -->
       <section id="menu-section">
-        <h1 class="main-title">HANGMAN<span>OID</span></h1>
+        <h1 class="main-title">
+          HANG<span>MAN</span><span class="oid">OID</span>
+        </h1>
 
         <div class="game-options">
           <div class="option-group">
@@ -79,6 +107,7 @@
         <div id="category-list" class="category-grid"></div>
       </section>
 
+      <!-- GAME -->
       <section id="game-section" class="hide">
         <div class="game-header">
           <div class="header-left">
@@ -138,6 +167,138 @@
       </section>
     </main>
 
+    <!-- ========== PROFILE MODAL ========== -->
+    <div id="profile-modal" class="modal hide">
+      <div class="modal-content profile-modal-content">
+        <button class="close-x" onclick="toggleModal('profile-modal')">
+          &times;
+        </button>
+
+        <!-- Hero Banner -->
+        <div class="profile-banner" id="profile-banner">
+          <div class="banner-bg"></div>
+          <div class="banner-overlay"></div>
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar" id="profile-avatar-display">
+              <span id="avatar-emoji">&#127918;</span>
+            </div>
+            <button class="avatar-edit-btn" onclick="openAvatarPicker()">
+              <i class="fas fa-pen"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Name & Title -->
+        <div class="profile-identity">
+          <div class="profile-name-wrap">
+            <span id="profile-name-display" class="profile-name">Player</span>
+            <button class="name-edit-btn" onclick="openNameEdit()">
+              <i class="fas fa-pen"></i>
+            </button>
+          </div>
+          <div id="profile-title-badge" class="profile-title">Rookie</div>
+        </div>
+
+        <!-- Level Ring -->
+        <div class="level-ring-wrap">
+          <svg class="level-ring" viewBox="0 0 80 80">
+            <circle
+              cx="40"
+              cy="40"
+              r="34"
+              fill="none"
+              stroke="rgba(255,255,255,0.1)"
+              stroke-width="6"
+            />
+            <circle
+              id="xp-ring-fill"
+              cx="40"
+              cy="40"
+              r="34"
+              fill="none"
+              stroke="var(--accent)"
+              stroke-width="6"
+              stroke-linecap="round"
+              stroke-dasharray="213.6"
+              stroke-dashoffset="213.6"
+              transform="rotate(-90 40 40)"
+            />
+          </svg>
+          <div class="level-ring-text">
+            <span class="lvl-num" id="profile-lvl">1</span>
+            <span class="lvl-label">LVL</span>
+          </div>
+        </div>
+
+        <!-- Quick Stats Row -->
+        <div class="profile-stats-row">
+          <div class="ps-item">
+            <span class="ps-val" id="ps-wins">0</span>
+            <span class="ps-key">WINS</span>
+          </div>
+          <div class="ps-divider"></div>
+          <div class="ps-item">
+            <span class="ps-val" id="ps-streak">0</span>
+            <span class="ps-key">STREAK</span>
+          </div>
+          <div class="ps-divider"></div>
+          <div class="ps-item">
+            <span class="ps-val" id="ps-acc">0%</span>
+            <span class="ps-key">ACC</span>
+          </div>
+          <div class="ps-divider"></div>
+          <div class="ps-item">
+            <span class="ps-val" id="ps-coins">0</span>
+            <span class="ps-key">COINS</span>
+          </div>
+        </div>
+
+        <!-- Avatar Picker (hidden by default) -->
+        <div id="avatar-picker" class="avatar-picker hide">
+          <p class="picker-label">Choose Avatar</p>
+          <div class="avatar-grid">
+            <span class="avatar-option" data-avatar="&#127918;">&#127918;</span>
+            <span class="avatar-option" data-avatar="&#129504;">&#129504;</span>
+            <span class="avatar-option" data-avatar="&#129418;">&#129418;</span>
+            <span class="avatar-option" data-avatar="&#128126;">&#128126;</span>
+            <span class="avatar-option" data-avatar="&#129302;">&#129302;</span>
+            <span class="avatar-option" data-avatar="&#128009;">&#128009;</span>
+            <span class="avatar-option" data-avatar="&#128293;">&#128293;</span>
+            <span class="avatar-option" data-avatar="&#9889;">&#9889;</span>
+            <span class="avatar-option" data-avatar="&#127775;">&#127775;</span>
+            <span class="avatar-option" data-avatar="&#128128;">&#128128;</span>
+            <span class="avatar-option" data-avatar="&#127919;">&#127919;</span>
+            <span class="avatar-option" data-avatar="&#128640;">&#128640;</span>
+            <span class="avatar-option" data-avatar="&#129409;">&#129409;</span>
+            <span class="avatar-option" data-avatar="&#128058;">&#128058;</span>
+            <span class="avatar-option" data-avatar="&#129413;">&#129413;</span>
+            <span class="avatar-option" data-avatar="&#127769;">&#127769;</span>
+          </div>
+        </div>
+
+        <!-- Name Edit (hidden by default) -->
+        <div id="name-edit-wrap" class="name-edit-wrap hide">
+          <input
+            type="text"
+            id="name-edit-input"
+            class="name-input"
+            placeholder="Your name..."
+            maxlength="16"
+          />
+          <button class="name-save-btn" onclick="saveName()">SAVE</button>
+        </div>
+
+        <!-- Achievements Preview -->
+        <div class="profile-ach-section">
+          <p class="section-label">
+            <i class="fas fa-trophy"></i> ACHIEVEMENTS
+          </p>
+          <div id="profile-ach-list" class="profile-ach-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHOP MODAL -->
     <div id="shop-modal" class="modal hide">
       <div class="modal-content">
         <button class="close-x" onclick="toggleModal('shop-modal')">
@@ -175,6 +336,7 @@
       </div>
     </div>
 
+    <!-- SETTINGS MODAL -->
     <div id="settings-modal" class="modal hide">
       <div class="modal-content">
         <button class="close-x" onclick="toggleModal('settings-modal')">
@@ -199,6 +361,7 @@
       </div>
     </div>
 
+    <!-- STATS MODAL -->
     <div id="stats-modal" class="modal hide">
       <div class="modal-content">
         <button class="close-x" onclick="toggleModal('stats-modal')">
@@ -211,6 +374,7 @@
       </div>
     </div>
 
+    <!-- RESULT MODAL -->
     <div id="result-modal" class="modal hide">
       <div class="modal-content result-card" id="result-data"></div>
     </div>

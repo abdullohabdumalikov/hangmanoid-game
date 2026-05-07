@@ -11,6 +11,11 @@ const defaultState = {
   xp: 0,
   combo: 0,
 
+  profile: {
+    name: "Player",
+    avatar: "\uD83C\uDFAE"
+  },
+
   settings: {
     difficulty: "easy",
     timerEnabled: false,
@@ -86,6 +91,25 @@ const achievementsData = {
   COMBO_5: { title: "On Fire", desc: "Reach a 5x Combo" }
 };
 
+const avatarList = [
+  "\uD83C\uDFAE",
+  "\uD83E\uDDE0",
+  "\uD83E\uDD8A",
+  "\uD83D\uDC7E",
+  "\uD83E\uDD16",
+  "\uD83D\uDC09",
+  "\uD83D\uDD25",
+  "\u26A1",
+  "\uD83C\uDF1F",
+  "\uD83D\uDC80",
+  "\uD83C\uDFAF",
+  "\uD83D\uDE80",
+  "\uD83E\uDD81",
+  "\uD83D\uDC3A",
+  "\uD83E\uDD85",
+  "\uD83C\uDF19"
+];
+
 // --- AUDIO SYSTEM (Web Audio API - Offline Safe) ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const playSound = (type) => {
@@ -98,7 +122,7 @@ const playSound = (type) => {
   const now = audioCtx.currentTime;
   if (type === 'click') { osc.frequency.setValueAtTime(400, now); osc.type = 'sine'; gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1); osc.start(now); osc.stop(now + 0.1); }
   else if (type === 'correct') { osc.frequency.setValueAtTime(600, now); osc.frequency.setValueAtTime(800, now + 0.1); osc.type = 'square'; gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); }
-  else if (type === 'wrong') { osc.frequency.setValueAtTime(300, now); osc.frequency.setValueAtTime(200, now + 0.1); osc.type = 'sawtooth'; gnain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); }
+  else if (type === 'wrong') { osc.frequency.setValueAtTime(300, now); osc.frequency.setValueAtTime(200, now + 0.1); osc.type = 'sawtooth'; gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); }
   else if (type === 'win') { osc.frequency.setValueAtTime(400, now); osc.frequency.setValueAtTime(500, now + 0.1); osc.frequency.setValueAtTime(600, now + 0.2); osc.type = 'sine'; gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
   else if (type === 'lose') { osc.frequency.setValueAtTime(300, now); osc.frequency.linearRampToValueAtTime(100, now + 0.4); osc.type = 'sawtooth'; gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
 };
@@ -110,7 +134,16 @@ const loadState = () => {
     const saved = localStorage.getItem("hangmanoid_state");
     if (saved) {
       const parsed = JSON.parse(saved);
-      gameState = { ...defaultState, ...parsed, settings: { ...defaultState.settings, ...parsed.settings }, inventory: { ...defaultState.inventory, ...parsed.inventory }, stats: { ...defaultState.stats, ...parsed.stats }, activeEffects: { shield: false }, gameStatus: "menu" };
+      gameState = {
+        ...defaultState,
+        ...parsed,
+        profile: { ...defaultState.profile, ...parsed.profile },
+        settings: { ...defaultState.settings, ...parsed.settings },
+        inventory: { ...defaultState.inventory, ...parsed.inventory },
+        stats: { ...defaultState.stats, ...parsed.stats },
+        activeEffects: { shield: false },
+        gameStatus: "menu"
+      };
     }
   } catch (e) { console.error("Corrupted save data."); }
 };
@@ -136,6 +169,8 @@ const updateUI = () => {
 
   const dailyBtn = document.querySelector(".daily-btn");
   if (gameState.dailyPlayedDate === new Date().toDateString()) dailyBtn.disabled = true;
+
+  renderProfile();
 };
 
 const init = () => {
@@ -154,6 +189,7 @@ const init = () => {
   });
   renderShop();
   renderStats();
+  setupAvatarPicker();
 };
 
 const updateSetupState = (key, value) => {
@@ -521,6 +557,121 @@ const showToast = (msg) => {
   setTimeout(() => { toast.style.animation = "fadeOut 0.3s forwards"; setTimeout(() => toast.remove(), 300); }, 2500);
 };
 
+// --- PROFILE ---
+const getProfileTitle = () => {
+  if (gameState.level >= 25) return "Legend";
+  if (gameState.level >= 15) return "Master";
+  if (gameState.level >= 10) return "Expert";
+  if (gameState.level >= 5) return "Hunter";
+  return "Rookie";
+};
+
+const getAccuracy = () => {
+  const { correct, wrong } = gameState.stats;
+  const total = correct + wrong;
+  return total ? Math.round((correct / total) * 100) : 0;
+};
+
+const renderProfile = () => {
+  const nameDisplay = document.getElementById("profile-name-display");
+  if (!nameDisplay) return;
+
+  const xpRing = document.getElementById("xp-ring-fill");
+  const ringLength = 213.6;
+  const avatar = avatarList.includes(gameState.profile.avatar) ? gameState.profile.avatar : defaultState.profile.avatar;
+
+  gameState.profile.avatar = avatar;
+  document.getElementById("avatar-emoji").innerText = avatar;
+  nameDisplay.innerText = gameState.profile.name;
+  document.getElementById("profile-title-badge").innerText = getProfileTitle();
+  document.getElementById("profile-lvl").innerText = gameState.level;
+  document.getElementById("ps-wins").innerText = gameState.stats.wins;
+  document.getElementById("ps-streak").innerText = gameState.stats.bestStreak;
+  document.getElementById("ps-acc").innerText = `${getAccuracy()}%`;
+  document.getElementById("ps-coins").innerText = gameState.coins;
+
+  if (xpRing) {
+    xpRing.style.strokeDashoffset = ringLength - (ringLength * gameState.xp / 100);
+  }
+
+  renderProfileAchievements();
+  updateAvatarSelection();
+};
+
+const renderProfileAchievements = () => {
+  const list = document.getElementById("profile-ach-list");
+  if (!list) return;
+
+  list.innerHTML = "";
+  Object.keys(achievementsData).forEach(key => {
+    const isUnlocked = gameState.achievements.includes(key);
+    const item = document.createElement("div");
+    item.className = `p-ach-item ${isUnlocked ? 'unlocked' : ''}`;
+    item.innerHTML = `
+      <div class="p-ach-icon"><i class="fas fa-${isUnlocked ? 'trophy' : 'lock'}"></i></div>
+      <div class="p-ach-info">
+        <div class="p-ach-title">${achievementsData[key].title}</div>
+        <div class="p-ach-desc">${achievementsData[key].desc}</div>
+      </div>
+    `;
+    list.appendChild(item);
+  });
+};
+
+const openAvatarPicker = () => {
+  playSound('click');
+  document.getElementById("avatar-picker").classList.toggle("hide");
+  document.getElementById("name-edit-wrap").classList.add("hide");
+};
+
+const setupAvatarPicker = () => {
+  document.querySelectorAll(".avatar-option").forEach(option => {
+    option.onclick = () => setAvatar(option.dataset.avatar);
+  });
+  updateAvatarSelection();
+};
+
+const updateAvatarSelection = () => {
+  document.querySelectorAll(".avatar-option").forEach(option => {
+    option.classList.toggle("selected", option.dataset.avatar === gameState.profile.avatar);
+  });
+};
+
+const setAvatar = (avatar) => {
+  if (!avatarList.includes(avatar)) return;
+
+  gameState.profile.avatar = avatar;
+  document.getElementById("avatar-picker").classList.add("hide");
+  renderProfile();
+  saveState();
+  showToast("Avatar updated!");
+};
+
+const openNameEdit = () => {
+  playSound('click');
+  const wrap = document.getElementById("name-edit-wrap");
+  const input = document.getElementById("name-edit-input");
+
+  wrap.classList.toggle("hide");
+  document.getElementById("avatar-picker").classList.add("hide");
+  input.value = gameState.profile.name;
+  input.focus();
+  input.select();
+};
+
+const saveName = () => {
+  const input = document.getElementById("name-edit-input");
+  const cleanName = input.value.trim().replace(/\s+/g, " ").slice(0, 16);
+
+  if (!cleanName) return showToast("Name cannot be empty.");
+
+  gameState.profile.name = cleanName;
+  document.getElementById("name-edit-wrap").classList.add("hide");
+  renderProfile();
+  saveState();
+  showToast("Name saved!");
+};
+
 // --- SHOP ---
 const renderShop = () => {
   const grid = document.getElementById("colors-tab");
@@ -617,6 +768,11 @@ const hardReset = () => {
 
 // Global Keyboard Events
 document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && document.activeElement?.id === "name-edit-input") {
+    saveName();
+    return;
+  }
+
   if (gameState.gameStatus !== "playing") return;
   const key = e.key.toUpperCase();
   if (key.match(/^[A-Z]$/)) handleGuess(key);
