@@ -143,7 +143,7 @@ const loadState = () => {
         stats: { ...defaultState.stats, ...parsed.stats },
         activeEffects: { shield: false },
         gameStatus: "menu"
-      };  
+      };
     }
   } catch (e) { console.error("Corrupted save data."); }
 };
@@ -418,15 +418,17 @@ const showClue = () => {
   return true;
 };
 
+const randomCoin = Math.round(Math.random() * 100) + 1;
+
 // --- RPG SYSTEMS ---
 const addXP = (amount) => {
   gameState.xp += amount;
   if (gameState.xp >= 100) {
     gameState.level++;
     gameState.xp -= 100;
-    gameState.coins += 50;
-    showToast(`🎉 Level Up! You are now Lv.${gameState.level} (+50 coins)`);
-  }
+    gameState.coins += randomCoin;
+    showToast(`🎉 Level Up! You are now Lv.${gameState.level} (+${randomCoin} coins)`);
+  } 
   updateUI();
 };
 
