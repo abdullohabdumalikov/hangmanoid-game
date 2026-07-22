@@ -103,6 +103,14 @@
           <i class="fas fa-calendar-day"></i> DAILY CHALLENGE
         </button>
 
+        <button
+          class="daily-btn"
+          style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+          onclick="toggleModal('multiplayer-modal')"
+        >
+          <i class="fas fa-users"></i> MULTIPLAYER
+        </button>
+
         <p class="label-text">SELECT MISSION</p>
         <div id="category-list" class="category-grid"></div>
       </section>
@@ -148,6 +156,14 @@
         </div>
 
         <div id="word-display" class="word-slots"></div>
+
+        <!-- MULTIPLAYER INFO -->
+        <div id="multiplayer-info" class="multiplayer-info hide">
+          <div class="mp-header">
+            <span id="multiplayer-opponent">vs Opponent</span>
+          </div>
+          <div id="mp-scores" class="mp-scores"></div>
+        </div>
         <div id="keyboard" class="virtual-keyboard"></div>
 
         <div class="game-footer hints-grid">
@@ -379,6 +395,125 @@
       <div class="modal-content result-card" id="result-data"></div>
     </div>
 
+    <!-- MULTIPLAYER MODAL -->
+    <div id="multiplayer-modal" class="modal hide">
+      <div class="modal-content" style="width: 90%; max-width: 500px">
+        <button class="close-x" onclick="toggleModal('multiplayer-modal')">
+          &times;
+        </button>
+        <h2 class="modal-title" style="text-align: center; margin-bottom: 30px">
+          <i class="fas fa-users"></i> MULTIPLAYER HANGMAN
+        </h2>
+
+        <!-- Create/Join Game -->
+        <div class="mp-form">
+          <input
+            type="text"
+            id="mp-player-name"
+            placeholder="Enter your name"
+            class="mp-input"
+            value="Player"
+          />
+
+          <label>Select Category:</label>
+          <select id="mp-category" class="mp-input">
+            <option value="Fruits">🍎 Fruits</option>
+            <option value="Animals">🐾 Animals</option>
+            <option value="Countries">🌍 Countries</option>
+            <option value="FootballPlayers">⚽ Football Players</option>
+          </select>
+
+          <button
+            class="mp-btn"
+            onclick="joinMultiplayerGame()"
+            style="background: #667eea; width: 100%; margin-top: 15px"
+          >
+            <i class="fas fa-plus"></i> CREATE GAME
+          </button>
+
+          <p style="text-align: center; margin: 15px 0; color: var(--muted)">
+            OR
+          </p>
+
+          <input
+            type="text"
+            id="mp-game-id"
+            placeholder="Paste Game ID to join"
+            class="mp-input"
+          />
+          <button
+            class="mp-btn"
+            onclick="joinMultiplayerGame()"
+            style="background: #764ba2; width: 100%; margin-top: 10px"
+          >
+            <i class="fas fa-sign-in-alt"></i> JOIN GAME
+          </button>
+
+          <button
+            class="mp-btn"
+            onclick="listMultiplayerGames()"
+            style="background: #22a6b3; width: 100%; margin-top: 10px"
+          >
+            <i class="fas fa-list"></i> BROWSE GAMES
+          </button>
+        </div>
+
+        <div
+          id="available-games"
+          style="margin-top: 20px; max-height: 200px; overflow-y: auto"
+        ></div>
+      </div>
+    </div>
+
+    <!-- GAME OVER MODAL -->
+    <div
+      id="gameover-section"
+      class="modal hide"
+      style="display: flex; align-items: center; justify-content: center"
+    >
+      <div class="modal-content" style="text-align: center">
+        <h2
+          id="game-over-title"
+          class="modal-title"
+          style="margin-bottom: 20px"
+        >
+          Game Over!
+        </h2>
+        <div
+          id="final-word-display"
+          style="
+            font-size: 2rem;
+            letter-spacing: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+          "
+        ></div>
+        <div id="final-scores" style="margin: 20px 0; font-size: 1.2rem"></div>
+
+        <div style="display: flex; gap: 10px; margin-top: 30px">
+          <button
+            class="mp-btn"
+            onclick="playAgainMultiplayer()"
+            style="flex: 1; background: #2ecc71"
+          >
+            <i class="fas fa-redo"></i> PLAY AGAIN
+          </button>
+          <button
+            class="mp-btn"
+            onclick="
+              toggleModal('menu-section')
+              location.reload()
+            "
+            style="flex: 1; background: #e74c3c"
+          >
+            <i class="fas fa-home"></i> MENU
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="main.js"></script>
+    <script src="multiplayer.js"></script>
   </body>
 </html>

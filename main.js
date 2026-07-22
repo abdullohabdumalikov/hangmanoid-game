@@ -125,7 +125,7 @@ const playSound = (type) => {
   else if (type === 'wrong') { osc.frequency.setValueAtTime(300, now); osc.frequency.setValueAtTime(200, now + 0.1); osc.type = 'sawtooth'; gain.gain.setValueAtTime(0.1, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2); osc.start(now); osc.stop(now + 0.2); }
   else if (type === 'win') { osc.frequency.setValueAtTime(400, now); osc.frequency.setValueAtTime(500, now + 0.1); osc.frequency.setValueAtTime(600, now + 0.2); osc.type = 'sine'; gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
   else if (type === 'lose') { osc.frequency.setValueAtTime(300, now); osc.frequency.linearRampToValueAtTime(100, now + 0.4); osc.type = 'sawtooth'; gain.gain.setValueAtTime(0.2, now); gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
-};
+}; 
 
 // --- CORE LOGIC ---
 const saveState = () => localStorage.setItem("hangmanoid_state", JSON.stringify(gameState));
